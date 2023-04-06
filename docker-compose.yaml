@@ -1,0 +1,27 @@
+services:
+  web:
+    build: .
+    command: python -u app.py
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/todo
+    depends_on:
+      - cassandra
+    networks:
+      - mynet
+
+  cassandra:
+    image: cassandra:latest
+    ports:
+      - "9042:9042"
+    volumes:
+      - .:/todo
+    networks:
+      - mynet
+
+networks:
+  mynet:
+
+
+

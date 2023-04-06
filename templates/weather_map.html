@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <title>Chain App Dev - App Landing Page HTML5 Template</title>
+
+    <!-- Bootstrap core CSS -->
+    
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animated.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.css') }}">
+    
+<!--
+
+TemplateMo 570 Chain App Dev
+
+https://templatemo.com/tm-570-chain-app-dev
+
+-->
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!--<link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">-->
+
+    <style>
+      .plot-container {
+  width: 90%; /* or 80vw or any other percentage value */
+  height: 450px; /* or any other viewport unit value */
+}
+    </style>
+  </head>
+  <body>
+    <h1> Temprature Map</h1>
+    <div class="plot-container">
+    {{ temp_plot | safe }}
+    </div><br/>
+    <h1> Humidity Map</h1>
+    <div class="plot-container">
+    {{ humi_plot | safe }}
+    </div>
+  </body>
+</html>

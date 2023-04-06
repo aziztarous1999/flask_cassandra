@@ -1,0 +1,10 @@
+flask
+cassandra-driver==3.25.0
+bcrypt
+requests
+kafka-python
+plotly
+urllib3
+pandas
+uuid
+geopandas
