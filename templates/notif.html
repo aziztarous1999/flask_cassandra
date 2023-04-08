@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Temperature Alerts</title>
+
+
+  <!-- Favicons -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='img/tree.png') }}" rel="icon">
+  <link rel="stylesheet" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  <!-- Template Main CSS File -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/aos/aos.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+<style>
+    button{
+  background: #3B75AE;
+    border: 0;
+    padding: 10px 30px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+}
+button:hover {
+    background: #00805d;
+}
+
+
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    background: #00805d;
+    color: white;
+    padding: 5px 20px;
+    width: fit-content;
+    border-radius: 10px;
+}
+</style>
+
+
+</head>
+<body>
+    <br/>
+<div class="container">
+    <h1 style="font-size: 24px;
+    background: #435d7d;
+    color: #fff;
+    padding: 16px 30px;
+    margin: -20px -25px 10px;
+    border-radius: 3px 3px 0 0;
+    padding-bottom: 15px;">Temperature Alerts</h1>
+    {% if message %}
+    <center>
+        <p>{{ message }}</p>
+    </center>
+    {% endif %}
+    <form method="POST" action="/notif">
+        <label for="city">City:</label>
+        <select name="city" id="city" class="form-control">
+            {% for city in cities %}
+                <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="email">Email:</label>
+        <input class="form-control" type="email" name="email" id="email" required>
+        <br>
+        <button type="submit">Subscribe</button>
+    </form>
+
+</div>
+</body>
+</html>

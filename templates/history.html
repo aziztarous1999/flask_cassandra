@@ -5,49 +5,98 @@
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
-    <title>Chain App Dev - App Landing Page HTML5 Template</title>
 
-    <!-- Bootstrap core CSS -->
-    
-    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/animated.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/owl.css') }}">
-    
-<!--
 
-TemplateMo 570 Chain App Dev
 
-https://templatemo.com/tm-570-chain-app-dev
 
--->
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <!--<link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">-->
+  <!-- Vendor CSS Files -->
+
+  <!-- Favicons -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='img/tree.png') }}" rel="icon">
+  <link rel="stylesheet" href="{{ url_for('static', filename='img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  <!-- Template Main CSS File -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/aos/aos.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/remixicon/remixicon.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+
+
+
 
     <style>
       .plot-container {
   width: 90%; /* or 80vw or any other percentage value */
   height: 450px; /* or any other viewport unit value */
 }
+
+button{
+  background: #3B75AE;
+    border: 0;
+    padding: 10px 30px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 50px;
+}
+button:hover {
+    background: #00805d;
+}
+
     </style>
   </head>
 <body>
+<br/>
+  <div class="container contact email-form">
+    <form action="/history" method="POST">
+      <div class="row">
+        <div class="col-md-3 form-group"></div>
+      <div class="col-md-6 form-group" style="display: flex;">
+        <input type="text" name="city" class="form-control" style="margin-right: 10px;" placeholder="Search for City" />
+        <button type="submit">Search</button>
+      </div>
+
+      
+    </div>
+    </form>
+  </div>
+
+  <br/>
+  <br/>
     
     <div class="container">
-        <h1>History</h1>
-        <table class="table">
+
+      <div class="table-title">
+            <h2 style="font-size: 24px;
+            background: #435d7d;
+            color: #fff;
+            padding: 16px 30px;
+            margin: -20px -25px 10px;
+            border-radius: 3px 3px 0 0;
+            padding-bottom: 15px;">Manage <b>Search History</b></h2>
+      </div>
+
+
+        <table class="table table-striped table-hover text-center">
           <thead>
             <tr>
               <th>Country</th>
-              <th>Humidity</th>
-              <th>Temperature</th>
+              <th>Humidity%</th>
+              <th>Temperature(C°)</th>
               <th>Date/Time</th>
-              <th>Delete</th>
+              <th>Max(C°)</th>
+              <th>Min(C°)</th>
+              <th>Description</th>
+              <th>Details</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -55,13 +104,17 @@ https://templatemo.com/tm-570-chain-app-dev
               <tr>
                 <td>{{ item['country'] }}</td>
                 <td>{{ item['humidity'] }}</td>
-                <td>{{ item['temperature'] }}</td>
+                <td>{{ '{:.2f}'.format(item['temperature']) }}</td>
                 <td>{{ item['timedate'] }}</td>
+                <td>{{ item['temp_max'] }}</td>
+                <td>{{ item['temp_min'] }}</td>
+                <td>{{ item['weather_description'] }}</td>
+                <td>{{ item['weather_details'] }}</td>
                 <td>
-                    <form action="/delete" method="GET">
-                        <input type="hidden" name="uuid" value={{item['timedate']}} /><br/>
-                        <input type="submit" value="Delete"/>
-                    </form>
+                  <form action="/history/{{ item['id'] }}" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger" >Delete</button>
+                  </form>
                 </td>
               </tr>
             {% endfor %}

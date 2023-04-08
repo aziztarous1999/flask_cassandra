@@ -1,0 +1,10 @@
+{% block content %}
+<h1>Search for a City's Weather</h1>
+<form action="/search" method="post">
+  <div class="form-group">
+    <label for="city">Enter a city:</label>
+    <input type="text" class="form-control" id="city" name="city" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Search</button>
+</form>
+{% endblock %}
