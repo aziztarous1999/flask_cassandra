@@ -406,9 +406,9 @@ subscriptions = {}
 
 # Dummy weather data for three cities
 alert_data = {
-    "London": {"temp": 20},
-    "New York": {"temp": 25},
-    "Tokyo": {"temp": 30},
+    "London": {"temp": 50,"humidity":70,"visibility":900,"wind_speed":0.75},
+    "New York": {"temp": -25,"humidity":90,"visibility":10000,"wind_speed":90},
+    "Tokyo": {"temp": 30,"humidity":55,"visibility":8000,"wind_speed":8.5},
 }
 
 def send_email(email, city, message):
@@ -448,6 +448,7 @@ def notif():
     cities = list(alert_data.keys())
     if request.method == 'POST':
         city = request.form['city']
+        print(f"****************** {city}")
         email = request.form['email']
         if city in subscriptions:
             subscriptions[city].append(email)
@@ -463,8 +464,82 @@ def notif():
 
 
 
+@app.route('/alert', methods=['GET', 'POST'])
+def alert():
+    cities = list(alert_data.keys())
+    
+    if request.method == 'POST':
+        city = request.form['city']
+        email = request.form['email']
+        temperature = 0
+        humidity= 0
+        visibility= 0
+        wind_speed= 0
+        country=""
+        #alert specification message
+        str1= ""
+        str2= ""
+        str3= ""
+        str4= ""
+        alertMsg= ""
+        problem = 0
+        alertcounter= 0
+        
+        if city in subscriptions:
+            weather = alert_data.get(city)
+            print(f"******************* {weather}")
+            country=city
+            subscriptions[city].append(email)
+            temperature = weather['temp']
+            humidity= weather['humidity']
+            visibility= weather['visibility']
+            wind_speed= weather['wind_speed']
+            #temperature
+            if temperature > 40:
+                str1= f"- Extreme heat: {temperature}°C\n\t"
+                problem= problem +1
+            elif temperature<-20:
+                str1= f"- Extreme cold: {temperature}°C\n\t"
+                problem= problem +1
 
+            #humidity
+            if humidity > 60:
+                str2= f"- High humidity: {humidity}%\n\t"
+                problem= problem +1
+            
+            #visibility
+            if visibility<1000:
+                str3= f"- Extreme low visibility:{visibility} meters\n\t"
+                problem= problem +1
 
+            #wind_speed
+            if wind_speed > 80:
+                str4=f"- Extreme wind speed {wind_speed}km/h\n\t"
+                problem= problem +1
+
+            if problem>0:
+                alertcounter= alertcounter+ 1
+                str= f"\n{country}:\n\t{str1}{str2}{str3}{str4}"
+                alertMsg+ str
+        
+            if alertcounter>0:
+                alertMsg= "Alert: Please be careful from these extreme weather cases\n"+ str
+            
+            else:
+                alertMsg= "all good"
+        else:
+            subscriptions[city] = [email]
+        
+        
+        
+    
+
+        send_email(email, city, alertMsg)
+        message = f"You have recived alerts for {city}."
+        return render_template('alert.html', message=message, cities=cities)
+    else:
+        # Display subscription form
+        return render_template('alert.html', cities=cities)
 
 
 
